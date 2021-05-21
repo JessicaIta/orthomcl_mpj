@@ -10,9 +10,38 @@ import java.util.Scanner;
 
 public class AdjustFasta {
 	
-	public boolean adjustFasta(String nameFile, int rank) {
+	private boolean executeComando(String comando, boolean result) {
 		
-		Boolean result = false;
+		Process exec;
+		try {
+			exec = Runtime.getRuntime().exec(comando);
+			
+			InputStream in = exec.getErrorStream();
+		    Scanner scan = new Scanner(in);
+		 
+		    while( scan.hasNext() ) {
+		        System.out.println( scan.nextLine());
+		    }
+		    
+		    if( exec.waitFor() == 0 ) {
+		        System.out.println("Programa executado");
+		        result = true;
+		    }
+		    
+			scan.close();
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return result;
+		
+	}
+	
+	public boolean adjustFasta(String nameFile, int rank, 
+			String pFasta) {
+		
+		Boolean execPrimeiro, execPrincipal, result;
 		
 		Path path = Paths.get(nameFile);
 		
@@ -40,30 +69,27 @@ public class AdjustFasta {
 					+ dir + "/"
 					+arqFasta.substring(0, 3)
 					+ " fasta/"+arqFasta+" 1";
-					
-			Process exec = Runtime.getRuntime().exec(comando);
-
-			InputStream in = exec.getErrorStream();
-		    Scanner scan = new Scanner(in);
-		 
-		    while( scan.hasNext() ) {
-		        System.out.println( scan.nextLine());
-		    }
+			
+			String principal ="orthomclAdjustFasta " 
+					+ dir + "/"
+					+pFasta.substring(0, 3)
+					+ " fasta/"+pFasta+" 1";
+			
+			// Executando o primeiro
+			execPrimeiro= executeComando(comando, false);
+			
+			//Executando o principal
+			execPrincipal = executeComando(principal, false);
 		    
-		    if( exec.waitFor() == 0 ) {
-		        System.out.println("Programa executado");
-		        result = true;
-		    }
-		    
-			scan.close();
-		    
+			if (execPrimeiro && execPrincipal) {
+				result = true;
+			}else {
+				result = false;
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return result;
 		

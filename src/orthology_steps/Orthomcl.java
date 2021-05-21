@@ -21,11 +21,13 @@ public class Orthomcl {
 
 		String arq = "arquivos_fasta.txt";
 		
+		String principalFasta = args[0];
+		
 		boolean adjustFasta, filterFasta = false;
 		
 		//Adjustfasta
 		AdjustFasta adj = new AdjustFasta();
-		adjustFasta = adj.adjustFasta(arq, rank);
+		adjustFasta = adj.adjustFasta(arq, rank, principalFasta);
 		
 		if (adjustFasta){
 			
