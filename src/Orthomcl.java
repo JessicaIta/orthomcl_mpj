@@ -10,7 +10,7 @@ public class Orthomcl {
 
 		String arq = "arquivos_fasta.txt";
 		
-		String principalFasta = "elegans";
+		String principalFasta = args[3];
 		
 		System.out.println(principalFasta);
 		
