@@ -1,5 +1,4 @@
-package orthology_steps;
-
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -10,11 +9,11 @@ import java.util.Scanner;
 
 public class AdjustFasta {
 	
-	private boolean executeComando(String comando, boolean result) {
+	private boolean executeComando(String comando, boolean result, String workingDirectory) {
 		
 		Process exec;
 		try {
-			exec = Runtime.getRuntime().exec(comando);
+			exec = Runtime.getRuntime().exec(comando, null, new File(workingDirectory));
 			
 			InputStream in = exec.getErrorStream();
 		    Scanner scan = new Scanner(in);
@@ -41,7 +40,7 @@ public class AdjustFasta {
 	public boolean adjustFasta(String nameFile, int rank, 
 			String pFasta) {
 		
-		Boolean execPrimeiro, execPrincipal, result;
+		Boolean execPrimeiro, execPrincipal, result = false;
 		
 		Path path = Paths.get(nameFile);
 		
@@ -66,20 +65,18 @@ public class AdjustFasta {
 		    System.out.println("Diretório foi criado!");  
 
 			String comando ="orthomclAdjustFasta " 
-					+ dir + "/"
 					+arqFasta.substring(0, 3)
-					+ " fasta/"+arqFasta+" 1";
+					+ " ../fasta/"+arqFasta+" 1";
 			
 			String principal ="orthomclAdjustFasta " 
-					+ dir + "/"
 					+pFasta.substring(0, 3)
-					+ " fasta/"+pFasta+" 1";
+					+ " ../fasta/"+pFasta+".fasta 1";
 			
 			// Executando o primeiro
-			execPrimeiro= executeComando(comando, false);
+			execPrimeiro= executeComando(comando, false, dir);
 			
 			//Executando o principal
-			execPrincipal = executeComando(principal, false);
+			execPrincipal = executeComando(principal, false, dir);
 		    
 			if (execPrimeiro && execPrincipal) {
 				result = true;
@@ -90,9 +87,10 @@ public class AdjustFasta {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-
-		return result;
 		
+		}
+		return result;
 	}
 
 }
+

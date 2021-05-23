@@ -1,5 +1,3 @@
-package orthology_steps;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -39,7 +37,7 @@ public class BlastAllVsAll {
 			}
 
 			if( execBlast.waitFor() == 0 ) {
-				System.out.println("programa finalizado");
+				System.out.println("Blast finalizado");
 			}
 			
 			scan.close();

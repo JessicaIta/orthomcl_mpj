@@ -1,5 +1,3 @@
-package orthology_steps;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -13,8 +11,8 @@ public class FilterFasta {
 		//Comando do filterFasta
 		String comando ="orthomclFilterFasta " 
 				+ "compliant_fasta_"+ rank 
-				+ "/ 10 20 [goodProteins_"+ rank
-				+ " poorProteins_"+rank+"]";
+				+ "/ 10 20 goodProteins_"+ rank
+				+ ".fasta poorProteins_"+rank+".fasta";
 		try {
 
 			Process exec = Runtime.getRuntime().exec(comando);
@@ -27,7 +25,7 @@ public class FilterFasta {
 			}
 
 			if( exec.waitFor() == 0 ) {
-				System.out.println("programa finalizado");
+				System.out.println("Filter fasta finalizado");
 				result = true;
 			}
 			

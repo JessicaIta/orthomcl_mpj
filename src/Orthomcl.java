@@ -1,27 +1,18 @@
-package orthology_steps;
-
 import mpi.*;
-import java.util.Scanner;
-import java.util.List;
 
-
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.File;
-import java.io.IOException;
 
 public class Orthomcl {
 
-	public static void main(String args[]) throws Exception {
+	public static void main(String args[]) throws Exception{
 		MPI.Init(args);
 		int rank = MPI.COMM_WORLD.Rank();
 		int size = MPI.COMM_WORLD.Size();
 
 		String arq = "arquivos_fasta.txt";
 		
-		String principalFasta = args[0];
+		String principalFasta = "elegans";
+		
+		System.out.println(principalFasta);
 		
 		boolean adjustFasta, filterFasta = false;
 		
@@ -42,7 +33,7 @@ public class Orthomcl {
 		if (filterFasta) {
 			
 			//BLAST
-			BlastAllVsAll bl = new BlastAllVsAll()
+			BlastAllVsAll bl = new BlastAllVsAll();
 			bl.executeBlast(rank);
 			
 		}else {
