@@ -7,6 +7,9 @@ public class Orthomcl {
 		MPI.Init(args);
 		int rank = MPI.COMM_WORLD.Rank();
 		int size = MPI.COMM_WORLD.Size();
+		double timeInitial, timeFinal;
+		
+		timeInitial = MPI.Wtime();
 
 		String arq = "arquivos_fasta.txt";
 		
@@ -39,6 +42,10 @@ public class Orthomcl {
 		}else {
 			System.out.println("Não foi possível executar o BLAST.");
 		}
+		
+		timeFinal = MPI.Wtime();
+		
+		System.out.println("Foram gastos " +(timeFinal - timeInitial)+" segundos.");
 
 	
 		MPI.Finalize();
